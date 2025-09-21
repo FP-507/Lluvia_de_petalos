@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lluvia Eterna de Pétalos Amarillos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(to bottom, #0e1a2b, #1e3c72);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 700px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            z-index: 10;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        h1 {
+            font-size: 3.2rem;
+            margin-bottom: 25px;
+            color: #FFD700;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+        
+        .poem {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+            font-style: italic;
+        }
+        
+        .line {
+            margin: 15px 0;
+            opacity: 0;
+            animation: fadeIn 3s forwards;
+        }
+        
+        .line:nth-child(1) { animation-delay: 1s; }
+        .line:nth-child(2) { animation-delay: 3s; }
+        .line:nth-child(3) { animation-delay: 5s; }
+        .line:nth-child(4) { animation-delay: 7s; }
+        .line:nth-child(5) { animation-delay: 9s; }
+        .line:nth-child(6) { animation-delay: 11s; }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        .petals-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .petal {
+            position: absolute;
+            background-color: #FFD700;
+            border-radius: 50% 50% 50% 0;
+            opacity: 0.8;
+            animation: fall linear infinite;
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+        
+        .moon {
+            position: fixed;
+            top: 50px;
+            right: 50px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fefebe, #FFD700);
+            box-shadow: 0 0 40px #FFD700;
+            z-index: 2;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .poem {
+                font-size: 1.1rem;
+            }
+            
+            .container {
+                padding: 25px;
+            }
+            
+            .moon {
+                width: 60px;
+                height: 60px;
+                top: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="petals-container" id="petals-container"></div>
+    <div class="moon"></div>
+    
+    <div class="container">
+        <h1>Pétalos Eternos</h1>
+        
+        <div class="poem">
+            <div class="line">El cielo se viste de amarillo</div>
+            <div class="line">para pintar nuestro amor.</div>
+            <div class="line">Cada pétalo es una razón para amarte,</div>
+            <div class="line">cada momento contigo es un sueño.</div>
+            <div class="line">Que esta lluvia dorada nunca termine,</div>
+            <div class="line">como nunca terminaré de amarte.</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const petalsContainer = document.getElementById('petals-container');
+            
+            // Crear pétalos infinitos
+            createPetals(80);
+            
+            // Función para crear pétalos
+            function createPetals(count) {
+                for (let i = 0; i < count; i++) {
+                    const petal = document.createElement('div');
+                    petal.classList.add('petal');
+                    
+                    // Tamaño aleatorio
+                    const size = Math.random() * 20 + 8;
+                    petal.style.width = `${size}px`;
+                    petal.style.height = `${size}px`;
+                    
+                    // Posición inicial aleatoria
+                    petal.style.left = `${Math.random() * 100}vw`;
+                    petal.style.top = `${-size}px`;
+                    
+                    // Color con variaciones de amarillo
+                    const yellowVariation = Math.random() * 40 + 200;
+                    const opacity = Math.random() * 0.4 + 0.6;
+                    petal.style.backgroundColor = `rgb(255, ${yellowVariation}, 0)`;
+                    petal.style.opacity = opacity;
+                    
+                    // Duración de animación aleatoria
+                    const duration = Math.random() * 15 + 10;
+                    petal.style.animationDuration = `${duration}s`;
+                    
+                    // Retraso inicial aleatorio
+                    petal.style.animationDelay = `${Math.random() * 15}s`;
+                    
+                    petalsContainer.appendChild(petal);
+                    
+                    // Reiniciar la animación cuando termine
+                    petal.addEventListener('animationiteration', () => {
+                        petal.style.left = `${Math.random() * 100}vw`;
+                        petal.style.top = `${-size}px`;
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
